@@ -1,38 +1,38 @@
 ﻿using System;
 
-class Book
+class Course
 {
-    public string Title { get; set; }
-    public string Author { get; set; }
+    public string Code { get; init; }
+    public string Name { get; set; }
 
-    private int pages;
+    private int credits;
 
-    public int Pages
+    public int Credits
     {
-        get { return pages; }
+        get { return credits; }
         set
         {
-            if (value > 0)
+            if (value >= 1 && value <= 10)
             {
-                pages = value;
+                credits = value;
             }
             else
             {
-                throw new ArgumentException("Pages must be greater than 0");
+                throw new ArgumentException("Credits must be between 1 and 10");
             }
         }
     }
 
-    public Book(string title, string author, int pages)
+    public Course(string code, string name, int credits)
     {
-        Title = title;
-        Author = author;
-        Pages = pages;
+        Code = code;
+        Name = name;
+        Credits = credits;
     }
 
     public string Info()
     {
-        return Title + " by " + Author + ", " + Pages + " pages";
+        return Code + " " + Name + " (" + Credits + " cr)";
     }
 }
 
@@ -40,29 +40,43 @@ class Program
 {
     static void Main()
     {
-        Book[] books = new Book[3];
+        Course[] courses = new Course[5];
 
-        books[0] = new Book("Suc ve Ceza", "Dostoyevski", 687);
-        books[1] = new Book("1984", "George Orwell", 328);
-        books[2] = new Book("Sefiller", "Victor Hugo", 1200);
+        courses[0] = new Course("CENG211", "Object Oriented Programming", 4);
+        courses[1] = new Course("MATH101", "Mathematics", 3);
+        courses[2] = new Course("CENG102", "Programming", 5);
+        courses[3] = new Course("PHYS101", "Physics", 4);
+        courses[4] = new Course("ENG101", "English", 2);
 
-        foreach (Book book in books)
+        int totalCredits = 0;
+
+        Console.WriteLine("All Courses:");
+
+        foreach (Course course in courses)
         {
-            Console.WriteLine(book.Info());
-        }
+            Console.WriteLine(course.Info());
 
-        Book longestBook = books[0];
-
-        foreach (Book book in books)
-        {
-            if (book.Pages > longestBook.Pages)
-            {
-                longestBook = book;
-            }
+            totalCredits = totalCredits + course.Credits;
         }
 
         Console.WriteLine();
-        Console.WriteLine("Book with most pages:");
-        Console.WriteLine(longestBook.Info());
+        Console.WriteLine("Total Credits: " + totalCredits);
+
+        string[] courseNames = new string[courses.Length];
+
+        for (int i = 0; i < courses.Length; i++)
+        {
+            courseNames[i] = courses[i].Name;
+        }
+
+        Array.Sort(courseNames);
+
+        Console.WriteLine();
+        Console.WriteLine("Courses in Alphabetical Order:");
+
+        foreach (string name in courseNames)
+        {
+            Console.WriteLine(name);
+        }
     }
 }
