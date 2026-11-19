@@ -1,44 +1,68 @@
-﻿double[] week = { 14.2, 17.5, 19.0, 16.8, 21.3, 22.7, 18.4 };
+﻿using System;
 
-double sum = 0;
-
-for (int i = 0; i < week.Length; i++)
+class Book
 {
-    sum += week[i];
-}
+    public string Title { get; set; }
+    public string Author { get; set; }
 
-double avg = sum / week.Length;
+    private int pages;
 
-Console.WriteLine("Ortalama: " + avg);
-
-double max = week[0];
-int day = 1;
-
-for (int i = 0; i < week.Length; i++)
-{
-    if (week[i] > max)
+    public int Pages
     {
-        max = week[i];
-        day = i + 1;
+        get { return pages; }
+        set
+        {
+            if (value > 0)
+            {
+                pages = value;
+            }
+            else
+            {
+                throw new ArgumentException("Pages must be greater than 0");
+            }
+        }
+    }
+
+    public Book(string title, string author, int pages)
+    {
+        Title = title;
+        Author = author;
+        Pages = pages;
+    }
+
+    public string Info()
+    {
+        return Title + " by " + Author + ", " + Pages + " pages";
     }
 }
 
-Console.WriteLine("En sıcak gün: " + day + ". gün");
-Console.WriteLine("En yüksek sıcaklık: " + max);
-
-Console.WriteLine("Ortalamadan sıcak günler:");
-
-for (int i = 0; i < week.Length; i++)
+class Program
 {
-    if (week[i] > avg)
+    static void Main()
     {
-        Console.WriteLine((i + 1) + ". gün: " + week[i]);
+        Book[] books = new Book[3];
+
+        books[0] = new Book("Suc ve Ceza", "Dostoyevski", 687);
+        books[1] = new Book("1984", "George Orwell", 328);
+        books[2] = new Book("Sefiller", "Victor Hugo", 1200);
+
+        foreach (Book book in books)
+        {
+            Console.WriteLine(book.Info());
+        }
+
+        Book longestBook = books[0];
+
+        foreach (Book book in books)
+        {
+            if (book.Pages > longestBook.Pages)
+            {
+                longestBook = book;
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Book with most pages:");
+        Console.WriteLine(longestBook.Info());
     }
-}
-
-Console.WriteLine("Son üç gün:");
-
-for (int i = 4; i < 7; i++)
-{
-    Console.WriteLine(week[i]);
 }
